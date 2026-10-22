@@ -64,9 +64,7 @@ final readonly class Signature implements SelfNormalizingModel
         if (array_key_exists('image', $data) && $data['image'] !== null) {
             $imageRaw = $data['image'];
             if (!is_string($imageRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "image" must be string, got %s.', get_debug_type($imageRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "image" must be string, got %s.', get_debug_type($imageRaw)));
             }
             $image = Some::create($imageRaw);
         }
@@ -86,7 +84,7 @@ final readonly class Signature implements SelfNormalizingModel
             $image = $imageOption->get();
             $dataArray['image'] = $image;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -95,6 +93,19 @@ final readonly class Signature implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): SignatureBuilder

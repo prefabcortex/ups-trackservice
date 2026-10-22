@@ -104,42 +104,28 @@ final readonly class DeliveryPhoto implements SelfNormalizingModel
         if (array_key_exists('isNonPostalCodeCountry', $data) && $data['isNonPostalCodeCountry'] !== null) {
             $isNonPostalCodeCountryRaw = $data['isNonPostalCodeCountry'];
             if (!is_bool($isNonPostalCodeCountryRaw)) {
-                throw new MalformedDataException(
-                    sprintf(
-                        'Property "isNonPostalCodeCountry" must be bool, got %s.',
-                        get_debug_type($isNonPostalCodeCountryRaw),
-                    ),
-                );
+                throw new MalformedDataException(sprintf('Property "isNonPostalCodeCountry" must be bool, got %s.', get_debug_type($isNonPostalCodeCountryRaw)));
             }
             $isNonPostalCodeCountry = Some::create($isNonPostalCodeCountryRaw);
         }
         if (array_key_exists('photo', $data) && $data['photo'] !== null) {
             $photoRaw = $data['photo'];
             if (!is_string($photoRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "photo" must be string, got %s.', get_debug_type($photoRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "photo" must be string, got %s.', get_debug_type($photoRaw)));
             }
             $photo = Some::create($photoRaw);
         }
         if (array_key_exists('photoCaptureInd', $data) && $data['photoCaptureInd'] !== null) {
             $photoCaptureIndRaw = $data['photoCaptureInd'];
             if (!is_string($photoCaptureIndRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "photoCaptureInd" must be string, got %s.', get_debug_type($photoCaptureIndRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "photoCaptureInd" must be string, got %s.', get_debug_type($photoCaptureIndRaw)));
             }
             $photoCaptureInd = Some::create($photoCaptureIndRaw);
         }
         if (array_key_exists('photoDispositionCode', $data) && $data['photoDispositionCode'] !== null) {
             $photoDispositionCodeRaw = $data['photoDispositionCode'];
             if (!is_string($photoDispositionCodeRaw)) {
-                throw new MalformedDataException(
-                    sprintf(
-                        'Property "photoDispositionCode" must be string, got %s.',
-                        get_debug_type($photoDispositionCodeRaw),
-                    ),
-                );
+                throw new MalformedDataException(sprintf('Property "photoDispositionCode" must be string, got %s.', get_debug_type($photoDispositionCodeRaw)));
             }
             $photoDispositionCode = Some::create($photoDispositionCodeRaw);
         }
@@ -188,7 +174,7 @@ final readonly class DeliveryPhoto implements SelfNormalizingModel
             $photoDispositionCode = $photoDispositionCodeOption->get();
             $dataArray['photoDispositionCode'] = $photoDispositionCode;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -197,6 +183,19 @@ final readonly class DeliveryPhoto implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): DeliveryPhotoBuilder

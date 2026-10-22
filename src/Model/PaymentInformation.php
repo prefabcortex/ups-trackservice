@@ -142,54 +142,42 @@ final readonly class PaymentInformation implements SelfNormalizingModel
         if (array_key_exists('amount', $data) && $data['amount'] !== null) {
             $amountRaw = $data['amount'];
             if (!is_string($amountRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "amount" must be string, got %s.', get_debug_type($amountRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "amount" must be string, got %s.', get_debug_type($amountRaw)));
             }
             $amount = Some::create($amountRaw);
         }
         if (array_key_exists('currency', $data) && $data['currency'] !== null) {
             $currencyRaw = $data['currency'];
             if (!is_string($currencyRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "currency" must be string, got %s.', get_debug_type($currencyRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "currency" must be string, got %s.', get_debug_type($currencyRaw)));
             }
             $currency = Some::create($currencyRaw);
         }
         if (array_key_exists('id', $data) && $data['id'] !== null) {
             $idRaw = $data['id'];
             if (!is_string($idRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "id" must be string, got %s.', get_debug_type($idRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "id" must be string, got %s.', get_debug_type($idRaw)));
             }
             $id = Some::create($idRaw);
         }
         if (array_key_exists('paid', $data) && $data['paid'] !== null) {
             $paidRaw = $data['paid'];
             if (!is_bool($paidRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "paid" must be bool, got %s.', get_debug_type($paidRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "paid" must be bool, got %s.', get_debug_type($paidRaw)));
             }
             $paid = Some::create($paidRaw);
         }
         if (array_key_exists('paymentMethod', $data) && $data['paymentMethod'] !== null) {
             $paymentMethodRaw = $data['paymentMethod'];
             if (!is_string($paymentMethodRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "paymentMethod" must be string, got %s.', get_debug_type($paymentMethodRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "paymentMethod" must be string, got %s.', get_debug_type($paymentMethodRaw)));
             }
             $paymentMethod = Some::create($paymentMethodRaw);
         }
         if (array_key_exists('type', $data) && $data['type'] !== null) {
             $typeRaw = $data['type'];
             if (!is_string($typeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)));
             }
             $type = Some::create($typeRaw);
         }
@@ -244,7 +232,7 @@ final readonly class PaymentInformation implements SelfNormalizingModel
             $type = $typeOption->get();
             $dataArray['type'] = $type;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -253,6 +241,19 @@ final readonly class PaymentInformation implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): PaymentInformationBuilder

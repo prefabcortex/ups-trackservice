@@ -49,14 +49,11 @@ use function str_replace;
  *
  * @implements Operation<TrackApiResponse>
  */
-final class ShipmentTrackingAPI implements Operation
+final readonly class ShipmentTrackingAPI implements Operation
 {
     use BaseOperationTrait;
     use OperationTrait;
     use ValidatorTrait;
-    private readonly string $inquiryNumber;
-    private readonly ShipmentTrackingAPIQueryParameters $queryParameters;
-    private readonly ShipmentTrackingAPIHeaderParameters $headerParameters;
 
     /**
      * @param string $inquiryNumber The tracking number for which tracking information is requested.
@@ -64,13 +61,10 @@ final class ShipmentTrackingAPI implements Operation
      *                              length.
      */
     public function __construct(
-        string $inquiryNumber,
-        ShipmentTrackingAPIQueryParameters $queryParameters,
-        ShipmentTrackingAPIHeaderParameters $headerParameters,
+        private string $inquiryNumber,
+        private ShipmentTrackingAPIQueryParameters $queryParameters,
+        private ShipmentTrackingAPIHeaderParameters $headerParameters,
     ) {
-        $this->inquiryNumber = $inquiryNumber;
-        $this->queryParameters = $queryParameters;
-        $this->headerParameters = $headerParameters;
     }
 
     #[Override]
@@ -166,11 +160,7 @@ final class ShipmentTrackingAPI implements Operation
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new ShipmentTrackingAPIInternalServerErrorException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new ShipmentTrackingAPIInternalServerErrorException(Response::fromArray($typedData), $response, $body);
         }
         if (503 === $status && $contentType->is('application/json')) {
             $typedData = JsonBody::toArray($body);

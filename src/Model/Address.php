@@ -166,72 +166,56 @@ final readonly class Address implements SelfNormalizingModel
         if (array_key_exists('addressLine1', $data) && $data['addressLine1'] !== null) {
             $addressLine1Raw = $data['addressLine1'];
             if (!is_string($addressLine1Raw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "addressLine1" must be string, got %s.', get_debug_type($addressLine1Raw)),
-                );
+                throw new MalformedDataException(sprintf('Property "addressLine1" must be string, got %s.', get_debug_type($addressLine1Raw)));
             }
             $addressLine1 = Some::create($addressLine1Raw);
         }
         if (array_key_exists('addressLine2', $data) && $data['addressLine2'] !== null) {
             $addressLine2Raw = $data['addressLine2'];
             if (!is_string($addressLine2Raw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "addressLine2" must be string, got %s.', get_debug_type($addressLine2Raw)),
-                );
+                throw new MalformedDataException(sprintf('Property "addressLine2" must be string, got %s.', get_debug_type($addressLine2Raw)));
             }
             $addressLine2 = Some::create($addressLine2Raw);
         }
         if (array_key_exists('addressLine3', $data) && $data['addressLine3'] !== null) {
             $addressLine3Raw = $data['addressLine3'];
             if (!is_string($addressLine3Raw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "addressLine3" must be string, got %s.', get_debug_type($addressLine3Raw)),
-                );
+                throw new MalformedDataException(sprintf('Property "addressLine3" must be string, got %s.', get_debug_type($addressLine3Raw)));
             }
             $addressLine3 = Some::create($addressLine3Raw);
         }
         if (array_key_exists('city', $data) && $data['city'] !== null) {
             $cityRaw = $data['city'];
             if (!is_string($cityRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "city" must be string, got %s.', get_debug_type($cityRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "city" must be string, got %s.', get_debug_type($cityRaw)));
             }
             $city = Some::create($cityRaw);
         }
         if (array_key_exists('country', $data) && $data['country'] !== null) {
             $countryRaw = $data['country'];
             if (!is_string($countryRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "country" must be string, got %s.', get_debug_type($countryRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "country" must be string, got %s.', get_debug_type($countryRaw)));
             }
             $country = Some::create($countryRaw);
         }
         if (array_key_exists('countryCode', $data) && $data['countryCode'] !== null) {
             $countryCodeRaw = $data['countryCode'];
             if (!is_string($countryCodeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "countryCode" must be string, got %s.', get_debug_type($countryCodeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "countryCode" must be string, got %s.', get_debug_type($countryCodeRaw)));
             }
             $countryCode = Some::create($countryCodeRaw);
         }
         if (array_key_exists('postalCode', $data) && $data['postalCode'] !== null) {
             $postalCodeRaw = $data['postalCode'];
             if (!is_string($postalCodeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "postalCode" must be string, got %s.', get_debug_type($postalCodeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "postalCode" must be string, got %s.', get_debug_type($postalCodeRaw)));
             }
             $postalCode = Some::create($postalCodeRaw);
         }
         if (array_key_exists('stateProvince', $data) && $data['stateProvince'] !== null) {
             $stateProvinceRaw = $data['stateProvince'];
             if (!is_string($stateProvinceRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "stateProvince" must be string, got %s.', get_debug_type($stateProvinceRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "stateProvince" must be string, got %s.', get_debug_type($stateProvinceRaw)));
             }
             $stateProvince = Some::create($stateProvinceRaw);
         }
@@ -308,7 +292,7 @@ final readonly class Address implements SelfNormalizingModel
             $stateProvince = $stateProvinceOption->get();
             $dataArray['stateProvince'] = $stateProvince;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -317,6 +301,19 @@ final readonly class Address implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): AddressBuilder

@@ -59,9 +59,7 @@ final readonly class Response implements SelfNormalizingModel
         if (array_key_exists('response', $data) && $data['response'] !== null) {
             $responseRaw = $data['response'];
             if (!is_array($responseRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "response" must be object, got %s.', get_debug_type($responseRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "response" must be object, got %s.', get_debug_type($responseRaw)));
             }
             /** @var array<string, mixed> $responseRawTyped */
             $responseRawTyped = $responseRaw;
@@ -86,6 +84,19 @@ final readonly class Response implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -95,7 +106,7 @@ final readonly class Response implements SelfNormalizingModel
             $response = $responseOption->get();
             $dataArray['response'] = $normalizationTarget->model($response);
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

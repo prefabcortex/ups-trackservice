@@ -76,18 +76,14 @@ final readonly class ReferenceNumber implements SelfNormalizingModel
         if (array_key_exists('number', $data) && $data['number'] !== null) {
             $numberRaw = $data['number'];
             if (!is_string($numberRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "number" must be string, got %s.', get_debug_type($numberRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "number" must be string, got %s.', get_debug_type($numberRaw)));
             }
             $number = Some::create($numberRaw);
         }
         if (array_key_exists('type', $data) && $data['type'] !== null) {
             $typeRaw = $data['type'];
             if (!is_string($typeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)));
             }
             $type = Some::create($typeRaw);
         }
@@ -112,7 +108,7 @@ final readonly class ReferenceNumber implements SelfNormalizingModel
             $type = $typeOption->get();
             $dataArray['type'] = $type;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -121,6 +117,19 @@ final readonly class ReferenceNumber implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): ReferenceNumberBuilder

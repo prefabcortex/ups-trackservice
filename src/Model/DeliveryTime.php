@@ -96,27 +96,21 @@ final readonly class DeliveryTime implements SelfNormalizingModel
         if (array_key_exists('endTime', $data) && $data['endTime'] !== null) {
             $endTimeRaw = $data['endTime'];
             if (!is_string($endTimeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "endTime" must be string, got %s.', get_debug_type($endTimeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "endTime" must be string, got %s.', get_debug_type($endTimeRaw)));
             }
             $endTime = Some::create($endTimeRaw);
         }
         if (array_key_exists('startTime', $data) && $data['startTime'] !== null) {
             $startTimeRaw = $data['startTime'];
             if (!is_string($startTimeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "startTime" must be string, got %s.', get_debug_type($startTimeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "startTime" must be string, got %s.', get_debug_type($startTimeRaw)));
             }
             $startTime = Some::create($startTimeRaw);
         }
         if (array_key_exists('type', $data) && $data['type'] !== null) {
             $typeRaw = $data['type'];
             if (!is_string($typeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)));
             }
             $type = Some::create($typeRaw);
         }
@@ -146,7 +140,7 @@ final readonly class DeliveryTime implements SelfNormalizingModel
             $type = $typeOption->get();
             $dataArray['type'] = $type;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -155,6 +149,19 @@ final readonly class DeliveryTime implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): DeliveryTimeBuilder

@@ -104,36 +104,28 @@ final readonly class Dimension implements SelfNormalizingModel
         if (array_key_exists('height', $data) && $data['height'] !== null) {
             $heightRaw = $data['height'];
             if (!is_string($heightRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "height" must be string, got %s.', get_debug_type($heightRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "height" must be string, got %s.', get_debug_type($heightRaw)));
             }
             $height = Some::create($heightRaw);
         }
         if (array_key_exists('length', $data) && $data['length'] !== null) {
             $lengthRaw = $data['length'];
             if (!is_string($lengthRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "length" must be string, got %s.', get_debug_type($lengthRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "length" must be string, got %s.', get_debug_type($lengthRaw)));
             }
             $length = Some::create($lengthRaw);
         }
         if (array_key_exists('unitOfDimension', $data) && $data['unitOfDimension'] !== null) {
             $unitOfDimensionRaw = $data['unitOfDimension'];
             if (!is_string($unitOfDimensionRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "unitOfDimension" must be string, got %s.', get_debug_type($unitOfDimensionRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "unitOfDimension" must be string, got %s.', get_debug_type($unitOfDimensionRaw)));
             }
             $unitOfDimension = Some::create($unitOfDimensionRaw);
         }
         if (array_key_exists('width', $data) && $data['width'] !== null) {
             $widthRaw = $data['width'];
             if (!is_string($widthRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "width" must be string, got %s.', get_debug_type($widthRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "width" must be string, got %s.', get_debug_type($widthRaw)));
             }
             $width = Some::create($widthRaw);
         }
@@ -171,7 +163,7 @@ final readonly class Dimension implements SelfNormalizingModel
             $width = $widthOption->get();
             $dataArray['width'] = $width;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -180,6 +172,19 @@ final readonly class Dimension implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): DimensionBuilder

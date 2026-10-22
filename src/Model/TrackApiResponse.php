@@ -59,9 +59,7 @@ final readonly class TrackApiResponse implements SelfNormalizingModel
         if (array_key_exists('trackResponse', $data) && $data['trackResponse'] !== null) {
             $trackResponseRaw = $data['trackResponse'];
             if (!is_array($trackResponseRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "trackResponse" must be object, got %s.', get_debug_type($trackResponseRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "trackResponse" must be object, got %s.', get_debug_type($trackResponseRaw)));
             }
             /** @var array<string, mixed> $trackResponseRawTyped */
             $trackResponseRawTyped = $trackResponseRaw;
@@ -86,6 +84,19 @@ final readonly class TrackApiResponse implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -95,7 +106,7 @@ final readonly class TrackApiResponse implements SelfNormalizingModel
             $trackResponse = $trackResponseOption->get();
             $dataArray['trackResponse'] = $normalizationTarget->model($trackResponse);
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

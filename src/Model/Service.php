@@ -92,27 +92,21 @@ final readonly class Service implements SelfNormalizingModel
         if (array_key_exists('code', $data) && $data['code'] !== null) {
             $codeRaw = $data['code'];
             if (!is_string($codeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "code" must be string, got %s.', get_debug_type($codeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "code" must be string, got %s.', get_debug_type($codeRaw)));
             }
             $code = Some::create($codeRaw);
         }
         if (array_key_exists('description', $data) && $data['description'] !== null) {
             $descriptionRaw = $data['description'];
             if (!is_string($descriptionRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "description" must be string, got %s.', get_debug_type($descriptionRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "description" must be string, got %s.', get_debug_type($descriptionRaw)));
             }
             $description = Some::create($descriptionRaw);
         }
         if (array_key_exists('levelCode', $data) && $data['levelCode'] !== null) {
             $levelCodeRaw = $data['levelCode'];
             if (!is_string($levelCodeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "levelCode" must be string, got %s.', get_debug_type($levelCodeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "levelCode" must be string, got %s.', get_debug_type($levelCodeRaw)));
             }
             $levelCode = Some::create($levelCodeRaw);
         }
@@ -142,7 +136,7 @@ final readonly class Service implements SelfNormalizingModel
             $levelCode = $levelCodeOption->get();
             $dataArray['levelCode'] = $levelCode;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -151,6 +145,19 @@ final readonly class Service implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): ServiceBuilder

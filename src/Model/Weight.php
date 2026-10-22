@@ -78,21 +78,14 @@ final readonly class Weight implements SelfNormalizingModel
         if (array_key_exists('unitOfMeasurement', $data) && $data['unitOfMeasurement'] !== null) {
             $unitOfMeasurementRaw = $data['unitOfMeasurement'];
             if (!is_string($unitOfMeasurementRaw)) {
-                throw new MalformedDataException(
-                    sprintf(
-                        'Property "unitOfMeasurement" must be string, got %s.',
-                        get_debug_type($unitOfMeasurementRaw),
-                    ),
-                );
+                throw new MalformedDataException(sprintf('Property "unitOfMeasurement" must be string, got %s.', get_debug_type($unitOfMeasurementRaw)));
             }
             $unitOfMeasurement = Some::create($unitOfMeasurementRaw);
         }
         if (array_key_exists('weight', $data) && $data['weight'] !== null) {
             $weightRaw = $data['weight'];
             if (!is_string($weightRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "weight" must be string, got %s.', get_debug_type($weightRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "weight" must be string, got %s.', get_debug_type($weightRaw)));
             }
             $weight = Some::create($weightRaw);
         }
@@ -117,7 +110,7 @@ final readonly class Weight implements SelfNormalizingModel
             $weight = $weightOption->get();
             $dataArray['weight'] = $weight;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -126,6 +119,19 @@ final readonly class Weight implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): WeightBuilder

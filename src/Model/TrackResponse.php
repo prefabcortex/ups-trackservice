@@ -61,15 +61,11 @@ final readonly class TrackResponse implements SelfNormalizingModel
         if (array_key_exists('shipment', $data) && $data['shipment'] !== null) {
             $shipmentRaw = $data['shipment'];
             if (!(is_array($shipmentRaw) && array_is_list($shipmentRaw))) {
-                throw new MalformedDataException(
-                    sprintf('Property "shipment" must be list, got %s.', get_debug_type($shipmentRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "shipment" must be list, got %s.', get_debug_type($shipmentRaw)));
             }
             $shipment = Some::create(array_map(static function (mixed $value): Shipment {
                 if (!is_array($value)) {
-                    throw new MalformedDataException(
-                        sprintf('Array item must be object, got %s.', get_debug_type($value)),
-                    );
+                    throw new MalformedDataException(sprintf('Array item must be object, got %s.', get_debug_type($value)));
                 }
                 /** @var array<string, mixed> $valueTyped */
                 $valueTyped = $value;
@@ -96,6 +92,19 @@ final readonly class TrackResponse implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -109,7 +118,7 @@ final readonly class TrackResponse implements SelfNormalizingModel
             }
             $dataArray['shipment'] = $values;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

@@ -61,15 +61,11 @@ final readonly class ErrorResponse implements SelfNormalizingModel
         if (array_key_exists('errors', $data) && $data['errors'] !== null) {
             $errorsRaw = $data['errors'];
             if (!(is_array($errorsRaw) && array_is_list($errorsRaw))) {
-                throw new MalformedDataException(
-                    sprintf('Property "errors" must be list, got %s.', get_debug_type($errorsRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "errors" must be list, got %s.', get_debug_type($errorsRaw)));
             }
             $errors = Some::create(array_map(static function (mixed $value): Error {
                 if (!is_array($value)) {
-                    throw new MalformedDataException(
-                        sprintf('Array item must be object, got %s.', get_debug_type($value)),
-                    );
+                    throw new MalformedDataException(sprintf('Array item must be object, got %s.', get_debug_type($value)));
                 }
                 /** @var array<string, mixed> $valueTyped */
                 $valueTyped = $value;
@@ -96,6 +92,19 @@ final readonly class ErrorResponse implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -109,7 +118,7 @@ final readonly class ErrorResponse implements SelfNormalizingModel
             }
             $dataArray['errors'] = $values;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

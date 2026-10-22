@@ -105,9 +105,7 @@ final readonly class PackageAddress implements SelfNormalizingModel
         if (array_key_exists('address', $data) && $data['address'] !== null) {
             $addressRaw = $data['address'];
             if (!is_array($addressRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "address" must be object, got %s.', get_debug_type($addressRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "address" must be object, got %s.', get_debug_type($addressRaw)));
             }
             /** @var array<string, mixed> $addressRawTyped */
             $addressRawTyped = $addressRaw;
@@ -116,27 +114,21 @@ final readonly class PackageAddress implements SelfNormalizingModel
         if (array_key_exists('attentionName', $data) && $data['attentionName'] !== null) {
             $attentionNameRaw = $data['attentionName'];
             if (!is_string($attentionNameRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "attentionName" must be string, got %s.', get_debug_type($attentionNameRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "attentionName" must be string, got %s.', get_debug_type($attentionNameRaw)));
             }
             $attentionName = Some::create($attentionNameRaw);
         }
         if (array_key_exists('name', $data) && $data['name'] !== null) {
             $nameRaw = $data['name'];
             if (!is_string($nameRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "name" must be string, got %s.', get_debug_type($nameRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "name" must be string, got %s.', get_debug_type($nameRaw)));
             }
             $name = Some::create($nameRaw);
         }
         if (array_key_exists('type', $data) && $data['type'] !== null) {
             $typeRaw = $data['type'];
             if (!is_string($typeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)));
             }
             $type = Some::create($typeRaw);
         }
@@ -159,6 +151,19 @@ final readonly class PackageAddress implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->normalize(NormalizationTarget::Json);
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
     }
 
     /** @return array<int|string, mixed> */
@@ -186,7 +191,7 @@ final readonly class PackageAddress implements SelfNormalizingModel
             $type = $typeOption->get();
             $dataArray['type'] = $type;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

@@ -76,9 +76,7 @@ final readonly class Location implements SelfNormalizingModel
         if (array_key_exists('address', $data) && $data['address'] !== null) {
             $addressRaw = $data['address'];
             if (!is_array($addressRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "address" must be object, got %s.', get_debug_type($addressRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "address" must be object, got %s.', get_debug_type($addressRaw)));
             }
             /** @var array<string, mixed> $addressRawTyped */
             $addressRawTyped = $addressRaw;
@@ -87,9 +85,7 @@ final readonly class Location implements SelfNormalizingModel
         if (array_key_exists('slic', $data) && $data['slic'] !== null) {
             $slicRaw = $data['slic'];
             if (!is_string($slicRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "slic" must be string, got %s.', get_debug_type($slicRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "slic" must be string, got %s.', get_debug_type($slicRaw)));
             }
             $slic = Some::create($slicRaw);
         }
@@ -112,6 +108,19 @@ final readonly class Location implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -126,7 +135,7 @@ final readonly class Location implements SelfNormalizingModel
             $slic = $slicOption->get();
             $dataArray['slic'] = $slic;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

@@ -11,6 +11,7 @@ namespace Prefabcortex\UpsTrackservice\Validator;
 
 use Override;
 use Prefabcortex\UpsTrackservice\Model\Package;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 final class PackageConstraint implements ConstraintProviderInterface
 {
+    /** @return list<Constraint> */
     #[Override]
     public static function constraints(): array
     {

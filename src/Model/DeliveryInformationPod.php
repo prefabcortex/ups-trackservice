@@ -64,9 +64,7 @@ final readonly class DeliveryInformationPod implements SelfNormalizingModel
         if (array_key_exists('content', $data) && $data['content'] !== null) {
             $contentRaw = $data['content'];
             if (!is_string($contentRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "content" must be string, got %s.', get_debug_type($contentRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "content" must be string, got %s.', get_debug_type($contentRaw)));
             }
             $content = Some::create($contentRaw);
         }
@@ -86,7 +84,7 @@ final readonly class DeliveryInformationPod implements SelfNormalizingModel
             $content = $contentOption->get();
             $dataArray['content'] = $content;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -95,6 +93,19 @@ final readonly class DeliveryInformationPod implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): DeliveryInformationPodBuilder

@@ -27,9 +27,8 @@ final readonly class OAuth2Authentication implements Authenticator
     public function authenticate(RequestInterface $request): RequestInterface
     {
         $header = sprintf('Bearer %s', $this->token);
-        $request = $request->withHeader('Authorization', $header);
 
-        return $request;
+        return $request->withHeader('Authorization', $header);
     }
 
     #[Override]

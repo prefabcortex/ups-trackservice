@@ -165,45 +165,35 @@ final readonly class Activity implements SelfNormalizingModel
         if (array_key_exists('date', $data) && $data['date'] !== null) {
             $dateRaw = $data['date'];
             if (!is_string($dateRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "date" must be string, got %s.', get_debug_type($dateRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "date" must be string, got %s.', get_debug_type($dateRaw)));
             }
             $date = Some::create($dateRaw);
         }
         if (array_key_exists('gmtDate', $data) && $data['gmtDate'] !== null) {
             $gmtDateRaw = $data['gmtDate'];
             if (!is_string($gmtDateRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "gmtDate" must be string, got %s.', get_debug_type($gmtDateRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "gmtDate" must be string, got %s.', get_debug_type($gmtDateRaw)));
             }
             $gmtDate = Some::create($gmtDateRaw);
         }
         if (array_key_exists('gmtOffset', $data) && $data['gmtOffset'] !== null) {
             $gmtOffsetRaw = $data['gmtOffset'];
             if (!is_string($gmtOffsetRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "gmtOffset" must be string, got %s.', get_debug_type($gmtOffsetRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "gmtOffset" must be string, got %s.', get_debug_type($gmtOffsetRaw)));
             }
             $gmtOffset = Some::create($gmtOffsetRaw);
         }
         if (array_key_exists('gmtTime', $data) && $data['gmtTime'] !== null) {
             $gmtTimeRaw = $data['gmtTime'];
             if (!is_string($gmtTimeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "gmtTime" must be string, got %s.', get_debug_type($gmtTimeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "gmtTime" must be string, got %s.', get_debug_type($gmtTimeRaw)));
             }
             $gmtTime = Some::create($gmtTimeRaw);
         }
         if (array_key_exists('location', $data) && $data['location'] !== null) {
             $locationRaw = $data['location'];
             if (!is_array($locationRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "location" must be object, got %s.', get_debug_type($locationRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "location" must be object, got %s.', get_debug_type($locationRaw)));
             }
             /** @var array<string, mixed> $locationRawTyped */
             $locationRawTyped = $locationRaw;
@@ -212,9 +202,7 @@ final readonly class Activity implements SelfNormalizingModel
         if (array_key_exists('status', $data) && $data['status'] !== null) {
             $statusRaw = $data['status'];
             if (!is_array($statusRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "status" must be object, got %s.', get_debug_type($statusRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "status" must be object, got %s.', get_debug_type($statusRaw)));
             }
             /** @var array<string, mixed> $statusRawTyped */
             $statusRawTyped = $statusRaw;
@@ -223,18 +211,14 @@ final readonly class Activity implements SelfNormalizingModel
         if (array_key_exists('time', $data) && $data['time'] !== null) {
             $timeRaw = $data['time'];
             if (!is_string($timeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "time" must be string, got %s.', get_debug_type($timeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "time" must be string, got %s.', get_debug_type($timeRaw)));
             }
             $time = Some::create($timeRaw);
         }
         if (array_key_exists('logicalScan', $data) && $data['logicalScan'] !== null) {
             $logicalScanRaw = $data['logicalScan'];
             if (!is_bool($logicalScanRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "logicalScan" must be bool, got %s.', get_debug_type($logicalScanRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "logicalScan" must be bool, got %s.', get_debug_type($logicalScanRaw)));
             }
             $logicalScan = Some::create($logicalScanRaw);
         }
@@ -276,6 +260,19 @@ final readonly class Activity implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->normalize(NormalizationTarget::Json);
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
     }
 
     /** @return array<int|string, mixed> */
@@ -323,7 +320,7 @@ final readonly class Activity implements SelfNormalizingModel
             $logicalScan = $logicalScanOption->get();
             $dataArray['logicalScan'] = $logicalScan;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Prefabcortex\UpsTrackservice\Examples\Auth;
 
-use InvalidArgumentException;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Prefabcortex\UpsTrackservice\Client;
 use Prefabcortex\UpsTrackservice\ClientConfig;
 use Prefabcortex\UpsTrackservice\Server;
+use InvalidArgumentException;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use RuntimeException;
@@ -17,6 +17,7 @@ use function array_key_exists;
 use function base64_encode;
 use function getenv;
 use function http_build_query;
+use function in_array;
 use function is_array;
 use function is_string;
 use function json_decode;
@@ -52,7 +53,7 @@ function getOAuth2Client(ClientInterface $httpClient): Client
     $clientId = getenv('OAUTH2_CLIENT_ID');
     $clientSecret = getenv('OAUTH2_CLIENT_SECRET');
 
-    if (false === $clientId || false === $clientSecret) {
+    if (in_array(false, [$clientId, $clientSecret], true)) {
         throw new RuntimeException('Set OAUTH2_CLIENT_ID and OAUTH2_CLIENT_SECRET before running this example.');
     }
 

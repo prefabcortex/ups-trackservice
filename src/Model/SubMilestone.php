@@ -63,9 +63,7 @@ final readonly class SubMilestone implements SelfNormalizingModel
         if (array_key_exists('category', $data) && $data['category'] !== null) {
             $categoryRaw = $data['category'];
             if (!is_string($categoryRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "category" must be string, got %s.', get_debug_type($categoryRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "category" must be string, got %s.', get_debug_type($categoryRaw)));
             }
             $category = Some::create($categoryRaw);
         }
@@ -85,7 +83,7 @@ final readonly class SubMilestone implements SelfNormalizingModel
             $category = $categoryOption->get();
             $dataArray['category'] = $category;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -94,6 +92,19 @@ final readonly class SubMilestone implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): SubMilestoneBuilder

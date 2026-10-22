@@ -49,14 +49,11 @@ use function str_replace;
  *
  * @implements Operation<TrackApiResponse>
  */
-final class GetSingleTrackResponseUsingGET implements Operation
+final readonly class GetSingleTrackResponseUsingGET implements Operation
 {
     use BaseOperationTrait;
     use OperationTrait;
     use ValidatorTrait;
-    private readonly string $inquiryNumber;
-    private readonly GetSingleTrackResponseUsingGETQueryParameters $queryParameters;
-    private readonly GetSingleTrackResponseUsingGETHeaderParameters $headerParameters;
 
     /**
      * @param string $inquiryNumber The tracking number for which tracking information is requested.
@@ -64,13 +61,10 @@ final class GetSingleTrackResponseUsingGET implements Operation
      *                              length.
      */
     public function __construct(
-        string $inquiryNumber,
-        GetSingleTrackResponseUsingGETQueryParameters $queryParameters,
-        GetSingleTrackResponseUsingGETHeaderParameters $headerParameters,
+        private string $inquiryNumber,
+        private GetSingleTrackResponseUsingGETQueryParameters $queryParameters,
+        private GetSingleTrackResponseUsingGETHeaderParameters $headerParameters,
     ) {
-        $this->inquiryNumber = $inquiryNumber;
-        $this->queryParameters = $queryParameters;
-        $this->headerParameters = $headerParameters;
     }
 
     #[Override]
@@ -145,55 +139,35 @@ final class GetSingleTrackResponseUsingGET implements Operation
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new GetSingleTrackResponseUsingGETBadRequestException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new GetSingleTrackResponseUsingGETBadRequestException(Response::fromArray($typedData), $response, $body);
         }
         if (403 === $status && $contentType->is('application/json')) {
             $typedData = JsonBody::toArray($body);
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new GetSingleTrackResponseUsingGETForbiddenException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new GetSingleTrackResponseUsingGETForbiddenException(Response::fromArray($typedData), $response, $body);
         }
         if (404 === $status && $contentType->is('application/json')) {
             $typedData = JsonBody::toArray($body);
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new GetSingleTrackResponseUsingGETNotFoundException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new GetSingleTrackResponseUsingGETNotFoundException(Response::fromArray($typedData), $response, $body);
         }
         if (500 === $status && $contentType->is('application/json')) {
             $typedData = JsonBody::toArray($body);
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new GetSingleTrackResponseUsingGETInternalServerErrorException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new GetSingleTrackResponseUsingGETInternalServerErrorException(Response::fromArray($typedData), $response, $body);
         }
         if (503 === $status && $contentType->is('application/json')) {
             $typedData = JsonBody::toArray($body);
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new GetSingleTrackResponseUsingGETServiceUnavailableException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new GetSingleTrackResponseUsingGETServiceUnavailableException(Response::fromArray($typedData), $response, $body);
         }
         if (in_array($status, [200, 400, 403, 404, 500, 503], true)) {
             throw new UnexpectedContentTypeException($response, $body);

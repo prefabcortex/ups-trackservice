@@ -7,7 +7,7 @@ namespace Prefabcortex\UpsTrackservice\Tests;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 use Prefabcortex\UpsTrackservice\Model\SelfNormalizingModel;
-use Prefabcortex\UpsTrackservice\Tests\Fixture\ModelFixtureProviders;
+use Prefabcortex\UpsTrackservice\Tests\Fixture\Model\ModelFixtureProviders;
 use RuntimeException;
 
 /**

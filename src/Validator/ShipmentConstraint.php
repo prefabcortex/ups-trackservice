@@ -11,6 +11,7 @@ namespace Prefabcortex\UpsTrackservice\Validator;
 
 use Override;
 use Prefabcortex\UpsTrackservice\Model\Shipment;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 final class ShipmentConstraint implements ConstraintProviderInterface
 {
+    /** @return list<Constraint> */
     #[Override]
     public static function constraints(): array
     {

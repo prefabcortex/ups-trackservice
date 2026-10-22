@@ -109,24 +109,18 @@ final readonly class Shipment implements SelfNormalizingModel
         if (array_key_exists('inquiryNumber', $data) && $data['inquiryNumber'] !== null) {
             $inquiryNumberRaw = $data['inquiryNumber'];
             if (!is_string($inquiryNumberRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "inquiryNumber" must be string, got %s.', get_debug_type($inquiryNumberRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "inquiryNumber" must be string, got %s.', get_debug_type($inquiryNumberRaw)));
             }
             $inquiryNumber = Some::create($inquiryNumberRaw);
         }
         if (array_key_exists('package', $data) && $data['package'] !== null) {
             $packageRaw = $data['package'];
             if (!(is_array($packageRaw) && array_is_list($packageRaw))) {
-                throw new MalformedDataException(
-                    sprintf('Property "package" must be list, got %s.', get_debug_type($packageRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "package" must be list, got %s.', get_debug_type($packageRaw)));
             }
             $package = Some::create(array_map(static function (mixed $value): Package {
                 if (!is_array($value)) {
-                    throw new MalformedDataException(
-                        sprintf('Array item must be object, got %s.', get_debug_type($value)),
-                    );
+                    throw new MalformedDataException(sprintf('Array item must be object, got %s.', get_debug_type($value)));
                 }
                 /** @var array<string, mixed> $valueTyped */
                 $valueTyped = $value;
@@ -137,15 +131,11 @@ final readonly class Shipment implements SelfNormalizingModel
         if (array_key_exists('userRelation', $data) && $data['userRelation'] !== null) {
             $userRelationRaw = $data['userRelation'];
             if (!(is_array($userRelationRaw) && array_is_list($userRelationRaw))) {
-                throw new MalformedDataException(
-                    sprintf('Property "userRelation" must be list, got %s.', get_debug_type($userRelationRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "userRelation" must be list, got %s.', get_debug_type($userRelationRaw)));
             }
             $userRelation = Some::create(array_map(static function (mixed $value_1): string {
                 if (!is_string($value_1)) {
-                    throw new MalformedDataException(
-                        sprintf('Array item must be string, got %s.', get_debug_type($value_1)),
-                    );
+                    throw new MalformedDataException(sprintf('Array item must be string, got %s.', get_debug_type($value_1)));
                 }
 
                 return $value_1;
@@ -154,15 +144,11 @@ final readonly class Shipment implements SelfNormalizingModel
         if (array_key_exists('warnings', $data) && $data['warnings'] !== null) {
             $warningsRaw = $data['warnings'];
             if (!(is_array($warningsRaw) && array_is_list($warningsRaw))) {
-                throw new MalformedDataException(
-                    sprintf('Property "warnings" must be list, got %s.', get_debug_type($warningsRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "warnings" must be list, got %s.', get_debug_type($warningsRaw)));
             }
             $warnings = Some::create(array_map(static function (mixed $value_2): Warning {
                 if (!is_array($value_2)) {
-                    throw new MalformedDataException(
-                        sprintf('Array item must be object, got %s.', get_debug_type($value_2)),
-                    );
+                    throw new MalformedDataException(sprintf('Array item must be object, got %s.', get_debug_type($value_2)));
                 }
                 /** @var array<string, mixed> $value_2Typed */
                 $value_2Typed = $value_2;
@@ -192,6 +178,19 @@ final readonly class Shipment implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -213,11 +212,7 @@ final readonly class Shipment implements SelfNormalizingModel
         $userRelationOption = $this->userRelation;
         if ($userRelationOption->isDefined()) {
             $userRelation = $userRelationOption->get();
-            $values_1 = [];
-            foreach ($userRelation as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $dataArray['userRelation'] = $values_1;
+            $dataArray['userRelation'] = $userRelation;
         }
         $warningsOption = $this->warnings;
         if ($warningsOption->isDefined()) {
@@ -228,7 +223,7 @@ final readonly class Shipment implements SelfNormalizingModel
             }
             $dataArray['warnings'] = $values_2;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

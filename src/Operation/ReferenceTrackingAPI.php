@@ -49,27 +49,21 @@ use function str_replace;
  *
  * @implements Operation<TrackApiResponse>
  */
-final class ReferenceTrackingAPI implements Operation
+final readonly class ReferenceTrackingAPI implements Operation
 {
     use BaseOperationTrait;
     use OperationTrait;
     use ValidatorTrait;
-    private readonly string $referenceNumber;
-    private readonly ReferenceTrackingAPIQueryParameters $queryParameters;
-    private readonly ReferenceTrackingAPIHeaderParameters $headerParameters;
 
     /**
      * @param string $referenceNumber the reference number for which tracking information is
      *                                requested
      */
     public function __construct(
-        string $referenceNumber,
-        ReferenceTrackingAPIQueryParameters $queryParameters,
-        ReferenceTrackingAPIHeaderParameters $headerParameters,
+        private string $referenceNumber,
+        private ReferenceTrackingAPIQueryParameters $queryParameters,
+        private ReferenceTrackingAPIHeaderParameters $headerParameters,
     ) {
-        $this->referenceNumber = $referenceNumber;
-        $this->queryParameters = $queryParameters;
-        $this->headerParameters = $headerParameters;
     }
 
     #[Override]
@@ -165,22 +159,14 @@ final class ReferenceTrackingAPI implements Operation
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new ReferenceTrackingAPIInternalServerErrorException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new ReferenceTrackingAPIInternalServerErrorException(Response::fromArray($typedData), $response, $body);
         }
         if (503 === $status && $contentType->is('application/json')) {
             $typedData = JsonBody::toArray($body);
             if (ValidationMode::Strict === $validation) {
                 $this->validate($typedData, ResponseConstraint::constraints());
             }
-            throw new ReferenceTrackingAPIServiceUnavailableException(
-                Response::fromArray($typedData),
-                $response,
-                $body,
-            );
+            throw new ReferenceTrackingAPIServiceUnavailableException(Response::fromArray($typedData), $response, $body);
         }
         if (in_array($status, [200, 400, 403, 404, 500, 503], true)) {
             throw new UnexpectedContentTypeException($response, $body);

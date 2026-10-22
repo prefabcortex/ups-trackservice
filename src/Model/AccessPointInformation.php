@@ -59,9 +59,7 @@ final readonly class AccessPointInformation implements SelfNormalizingModel
         if (array_key_exists('pickupByDate', $data) && $data['pickupByDate'] !== null) {
             $pickupByDateRaw = $data['pickupByDate'];
             if (!is_string($pickupByDateRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "pickupByDate" must be string, got %s.', get_debug_type($pickupByDateRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "pickupByDate" must be string, got %s.', get_debug_type($pickupByDateRaw)));
             }
             $pickupByDate = Some::create($pickupByDateRaw);
         }
@@ -81,7 +79,7 @@ final readonly class AccessPointInformation implements SelfNormalizingModel
             $pickupByDate = $pickupByDateOption->get();
             $dataArray['pickupByDate'] = $pickupByDate;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -90,6 +88,19 @@ final readonly class AccessPointInformation implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): AccessPointInformationBuilder

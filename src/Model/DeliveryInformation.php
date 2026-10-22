@@ -125,9 +125,7 @@ final readonly class DeliveryInformation implements SelfNormalizingModel
         if (array_key_exists('deliveryPhoto', $data) && $data['deliveryPhoto'] !== null) {
             $deliveryPhotoRaw = $data['deliveryPhoto'];
             if (!is_array($deliveryPhotoRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "deliveryPhoto" must be object, got %s.', get_debug_type($deliveryPhotoRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "deliveryPhoto" must be object, got %s.', get_debug_type($deliveryPhotoRaw)));
             }
             /** @var array<string, mixed> $deliveryPhotoRawTyped */
             $deliveryPhotoRawTyped = $deliveryPhotoRaw;
@@ -136,27 +134,21 @@ final readonly class DeliveryInformation implements SelfNormalizingModel
         if (array_key_exists('location', $data) && $data['location'] !== null) {
             $locationRaw = $data['location'];
             if (!is_string($locationRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "location" must be string, got %s.', get_debug_type($locationRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "location" must be string, got %s.', get_debug_type($locationRaw)));
             }
             $location = Some::create($locationRaw);
         }
         if (array_key_exists('receivedBy', $data) && $data['receivedBy'] !== null) {
             $receivedByRaw = $data['receivedBy'];
             if (!is_string($receivedByRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "receivedBy" must be string, got %s.', get_debug_type($receivedByRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "receivedBy" must be string, got %s.', get_debug_type($receivedByRaw)));
             }
             $receivedBy = Some::create($receivedByRaw);
         }
         if (array_key_exists('signature', $data) && $data['signature'] !== null) {
             $signatureRaw = $data['signature'];
             if (!is_array($signatureRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "signature" must be object, got %s.', get_debug_type($signatureRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "signature" must be object, got %s.', get_debug_type($signatureRaw)));
             }
             /** @var array<string, mixed> $signatureRawTyped */
             $signatureRawTyped = $signatureRaw;
@@ -165,9 +157,7 @@ final readonly class DeliveryInformation implements SelfNormalizingModel
         if (array_key_exists('pod', $data) && $data['pod'] !== null) {
             $podRaw = $data['pod'];
             if (!is_array($podRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "pod" must be object, got %s.', get_debug_type($podRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "pod" must be object, got %s.', get_debug_type($podRaw)));
             }
             /** @var array<string, mixed> $podRawTyped */
             $podRawTyped = $podRaw;
@@ -192,6 +182,19 @@ final readonly class DeliveryInformation implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->normalize(NormalizationTarget::Json);
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
     }
 
     /** @return array<int|string, mixed> */
@@ -224,7 +227,7 @@ final readonly class DeliveryInformation implements SelfNormalizingModel
             $pod = $podOption->get();
             $dataArray['pod'] = $normalizationTarget->model($pod);
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

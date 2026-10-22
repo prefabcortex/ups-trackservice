@@ -62,15 +62,11 @@ final readonly class InquireNumbers implements SelfNormalizingModel
         if (array_key_exists('inquiryNumbers', $data) && $data['inquiryNumbers'] !== null) {
             $inquiryNumbersRaw = $data['inquiryNumbers'];
             if (!(is_array($inquiryNumbersRaw) && array_is_list($inquiryNumbersRaw))) {
-                throw new MalformedDataException(
-                    sprintf('Property "inquiryNumbers" must be list, got %s.', get_debug_type($inquiryNumbersRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "inquiryNumbers" must be list, got %s.', get_debug_type($inquiryNumbersRaw)));
             }
             $inquiryNumbers = Some::create(array_map(static function (mixed $value): string {
                 if (!is_string($value)) {
-                    throw new MalformedDataException(
-                        sprintf('Array item must be string, got %s.', get_debug_type($value)),
-                    );
+                    throw new MalformedDataException(sprintf('Array item must be string, got %s.', get_debug_type($value)));
                 }
 
                 return $value;
@@ -90,13 +86,9 @@ final readonly class InquireNumbers implements SelfNormalizingModel
         $inquiryNumbersOption = $this->inquiryNumbers;
         if ($inquiryNumbersOption->isDefined()) {
             $inquiryNumbers = $inquiryNumbersOption->get();
-            $values = [];
-            foreach ($inquiryNumbers as $value) {
-                $values[] = $value;
-            }
-            $dataArray['inquiryNumbers'] = $values;
+            $dataArray['inquiryNumbers'] = $inquiryNumbers;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -105,6 +97,19 @@ final readonly class InquireNumbers implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): InquireNumbersBuilder

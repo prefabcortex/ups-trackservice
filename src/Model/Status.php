@@ -120,48 +120,35 @@ final readonly class Status implements SelfNormalizingModel
         if (array_key_exists('code', $data) && $data['code'] !== null) {
             $codeRaw = $data['code'];
             if (!is_string($codeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "code" must be string, got %s.', get_debug_type($codeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "code" must be string, got %s.', get_debug_type($codeRaw)));
             }
             $code = Some::create($codeRaw);
         }
         if (array_key_exists('description', $data) && $data['description'] !== null) {
             $descriptionRaw = $data['description'];
             if (!is_string($descriptionRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "description" must be string, got %s.', get_debug_type($descriptionRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "description" must be string, got %s.', get_debug_type($descriptionRaw)));
             }
             $description = Some::create($descriptionRaw);
         }
         if (array_key_exists('simplifiedTextDescription', $data) && $data['simplifiedTextDescription'] !== null) {
             $simplifiedTextDescriptionRaw = $data['simplifiedTextDescription'];
             if (!is_string($simplifiedTextDescriptionRaw)) {
-                throw new MalformedDataException(
-                    sprintf(
-                        'Property "simplifiedTextDescription" must be string, got %s.',
-                        get_debug_type($simplifiedTextDescriptionRaw),
-                    ),
-                );
+                throw new MalformedDataException(sprintf('Property "simplifiedTextDescription" must be string, got %s.', get_debug_type($simplifiedTextDescriptionRaw)));
             }
             $simplifiedTextDescription = Some::create($simplifiedTextDescriptionRaw);
         }
         if (array_key_exists('statusCode', $data) && $data['statusCode'] !== null) {
             $statusCodeRaw = $data['statusCode'];
             if (!is_string($statusCodeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "statusCode" must be string, got %s.', get_debug_type($statusCodeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "statusCode" must be string, got %s.', get_debug_type($statusCodeRaw)));
             }
             $statusCode = Some::create($statusCodeRaw);
         }
         if (array_key_exists('type', $data) && $data['type'] !== null) {
             $typeRaw = $data['type'];
             if (!is_string($typeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)));
             }
             $type = Some::create($typeRaw);
         }
@@ -210,7 +197,7 @@ final readonly class Status implements SelfNormalizingModel
             $type = $typeOption->get();
             $dataArray['type'] = $type;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -219,6 +206,19 @@ final readonly class Status implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): StatusBuilder

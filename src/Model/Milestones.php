@@ -161,63 +161,49 @@ final readonly class Milestones implements SelfNormalizingModel
         if (array_key_exists('category', $data) && $data['category'] !== null) {
             $categoryRaw = $data['category'];
             if (!is_string($categoryRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "category" must be string, got %s.', get_debug_type($categoryRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "category" must be string, got %s.', get_debug_type($categoryRaw)));
             }
             $category = Some::create($categoryRaw);
         }
         if (array_key_exists('code', $data) && $data['code'] !== null) {
             $codeRaw = $data['code'];
             if (!is_string($codeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "code" must be string, got %s.', get_debug_type($codeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "code" must be string, got %s.', get_debug_type($codeRaw)));
             }
             $code = Some::create($codeRaw);
         }
         if (array_key_exists('current', $data) && $data['current'] !== null) {
             $currentRaw = $data['current'];
             if (!is_bool($currentRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "current" must be bool, got %s.', get_debug_type($currentRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "current" must be bool, got %s.', get_debug_type($currentRaw)));
             }
             $current = Some::create($currentRaw);
         }
         if (array_key_exists('description', $data) && $data['description'] !== null) {
             $descriptionRaw = $data['description'];
             if (!is_string($descriptionRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "description" must be string, got %s.', get_debug_type($descriptionRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "description" must be string, got %s.', get_debug_type($descriptionRaw)));
             }
             $description = Some::create($descriptionRaw);
         }
         if (array_key_exists('linkedActivity', $data) && $data['linkedActivity'] !== null) {
             $linkedActivityRaw = $data['linkedActivity'];
             if (!is_string($linkedActivityRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "linkedActivity" must be string, got %s.', get_debug_type($linkedActivityRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "linkedActivity" must be string, got %s.', get_debug_type($linkedActivityRaw)));
             }
             $linkedActivity = Some::create($linkedActivityRaw);
         }
         if (array_key_exists('state', $data) && $data['state'] !== null) {
             $stateRaw = $data['state'];
             if (!is_string($stateRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "state" must be string, got %s.', get_debug_type($stateRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "state" must be string, got %s.', get_debug_type($stateRaw)));
             }
             $state = Some::create($stateRaw);
         }
         if (array_key_exists('subMilestone', $data) && $data['subMilestone'] !== null) {
             $subMilestoneRaw = $data['subMilestone'];
             if (!is_array($subMilestoneRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "subMilestone" must be object, got %s.', get_debug_type($subMilestoneRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "subMilestone" must be object, got %s.', get_debug_type($subMilestoneRaw)));
             }
             /** @var array<string, mixed> $subMilestoneRawTyped */
             $subMilestoneRawTyped = $subMilestoneRaw;
@@ -262,6 +248,19 @@ final readonly class Milestones implements SelfNormalizingModel
     }
 
     /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->normalize(NormalizationTarget::RequestArray);
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return (object) $this->normalize(NormalizationTarget::RequestJson);
+    }
+
+    /** @return array<int|string, mixed> */
     private function normalize(NormalizationTarget $normalizationTarget): array
     {
         /** @var array<int|string, mixed> $dataArray */
@@ -301,7 +300,7 @@ final readonly class Milestones implements SelfNormalizingModel
             $subMilestone = $subMilestoneOption->get();
             $dataArray['subMilestone'] = $normalizationTarget->model($subMilestone);
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }

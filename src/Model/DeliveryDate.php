@@ -76,18 +76,14 @@ final readonly class DeliveryDate implements SelfNormalizingModel
         if (array_key_exists('date', $data) && $data['date'] !== null) {
             $dateRaw = $data['date'];
             if (!is_string($dateRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "date" must be string, got %s.', get_debug_type($dateRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "date" must be string, got %s.', get_debug_type($dateRaw)));
             }
             $date = Some::create($dateRaw);
         }
         if (array_key_exists('type', $data) && $data['type'] !== null) {
             $typeRaw = $data['type'];
             if (!is_string($typeRaw)) {
-                throw new MalformedDataException(
-                    sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)),
-                );
+                throw new MalformedDataException(sprintf('Property "type" must be string, got %s.', get_debug_type($typeRaw)));
             }
             $type = Some::create($typeRaw);
         }
@@ -112,7 +108,7 @@ final readonly class DeliveryDate implements SelfNormalizingModel
             $type = $typeOption->get();
             $dataArray['type'] = $type;
         }
-        $dataArray += $this->getAdditionalProperties();
+        $dataArray += $this->additionalProperties;
 
         return $dataArray;
     }
@@ -121,6 +117,19 @@ final readonly class DeliveryDate implements SelfNormalizingModel
     public function jsonSerialize(): object
     {
         return (object) $this->toArray();
+    }
+
+    /** @return array<int|string, mixed> */
+    #[Override]
+    public function toRequestArray(): array
+    {
+        return $this->toArray();
+    }
+
+    #[Override]
+    public function toRequestJson(): object
+    {
+        return $this->jsonSerialize();
     }
 
     public function toBuilder(): DeliveryDateBuilder
